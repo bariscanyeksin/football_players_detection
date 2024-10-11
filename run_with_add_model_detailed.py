@@ -15,6 +15,21 @@ away_hex = "#ebf1ff"
 
 ROBOFLOW_API_KEY = ""
 
+home_lower = np.array([0, 100, 100])
+home_upper = np.array([10, 255, 255])
+
+away_lower = np.array([0, 0, 200])
+away_upper = np.array([180, 25, 255])
+
+referee_lower = np.array([40, 100, 100])
+referee_upper = np.array([80, 255, 255])
+
+video_path = r"video.mp4"
+cap = cv2.VideoCapture(video_path)
+fps = cap.get(cv2.CAP_PROP_FPS)
+width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
 def filter_team_by_color(image, bbox, lower_color, upper_color, threshold=80):
     x1, y1, x2, y2 = bbox
     player_region = image[y1:y2, x1:x2]
@@ -47,21 +62,6 @@ def hex_to_hsv_range(hex_color: str, tolerance: int = 10):
 def hex_to_rgb(hex_color: str) -> Tuple[int, int, int]:
     hex_color = hex_color.lstrip('#')
     return tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
-
-home_lower = np.array([0, 100, 100])
-home_upper = np.array([10, 255, 255])
-
-away_lower = np.array([0, 0, 200])
-away_upper = np.array([180, 25, 255])
-
-referee_lower = np.array([40, 100, 100])
-referee_upper = np.array([80, 255, 255])
-
-video_path = r"video.mp4"
-cap = cv2.VideoCapture(video_path)
-fps = cap.get(cv2.CAP_PROP_FPS)
-width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 def my_custom_sink(predictions: dict, video_frame: VideoFrame):
     global video_writer
